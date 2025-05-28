@@ -7,6 +7,8 @@ import SalesManagement from './pages/SalesManagement'
 import FeedbackReview from './pages/FeedbackReview'
 import LoyaltyReward from './pages/LoyaltyReward'
 
+import Produk from './pages/Produk'
+import PelacakanBahanBaku from './pages/PelacakanBahanBaku'
 
 function App() {
 
@@ -19,6 +21,8 @@ function App() {
       <Route path="/produk" element={<ProductManagement/>}/>
       <Route path="/review" element={<FeedbackReview />} />
       <Route path="/loyalty" element={<LoyaltyReward />} />
+      <Route path="/produk" element={<Produk />} />
+      <Route path="/bahan-baku" element={<PelacakanBahanBaku />} />
       </Route>
     </Routes>
   )

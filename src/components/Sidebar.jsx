@@ -20,6 +20,7 @@ const menuItems = [
   { name: "Laporan", icon: <BarChart2 />, path: "/laporan" },
   { name: "Review & Feedback", icon: <FcFeedback />, path: "/review" },
   { name: "Loyalty Reward", icon: <BsFillStarFill />, path: "/loyalty" },  // icon diperbaiki di sini
+  { name: "Bahan Baku", icon: <Box />, path: "/bahan-baku" },,
 ];
 
 const accountItems = [
