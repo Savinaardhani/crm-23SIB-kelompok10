@@ -16,6 +16,7 @@ const menuItems = [
   { name: "Produk", icon: <Box />, path: "/produk" },
   { name: "Pelanggan", icon: <Users />, path: "/pelanggan" },
   { name: "Laporan", icon: <BarChart2 />, path: "/laporan" },
+  { name: "Bahan Baku", icon: <Box />, path: "/bahan-baku" },,
 ];
 
 const accountItems = [
