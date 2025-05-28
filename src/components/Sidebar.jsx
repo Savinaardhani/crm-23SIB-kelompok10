@@ -17,6 +17,7 @@ const menuItems = [
   { name: "Produk", icon: <Box />, path: "/produk" },
   { name: "Pelanggan", icon: <Users />, path: "/pelanggan" },
   { name: "Penjualan", icon: <ShoppingCart />, path: "/penjualan" },
+  { name: "Order", icon: <ShoppingCart />, path: "/Order" },
   { name: "Laporan", icon: <BarChart2 />, path: "/laporan" },
   { name: "Review & Feedback", icon: <FcFeedback />, path: "/review" },
   { name: "Loyalty Reward", icon: <BsFillStarFill />, path: "/loyalty" },  // icon diperbaiki di sini

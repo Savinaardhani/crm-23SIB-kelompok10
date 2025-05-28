@@ -9,6 +9,7 @@ import LoyaltyReward from './pages/LoyaltyReward'
 
 import Produk from './pages/Produk'
 import PelacakanBahanBaku from './pages/PelacakanBahanBaku'
+import Order from './pages/Order'
 
 function App() {
 
@@ -18,6 +19,7 @@ function App() {
       <Route path="/" element={<Dashboard/>}/>
       <Route path="/pelanggan" element={<CustomerManagement/>}/>
       <Route path="/penjualan" element={<SalesManagement/>}/>
+      <Route path="/Order" element={<Order/>}/>
       <Route path="/produk" element={<ProductManagement/>}/>
       <Route path="/review" element={<FeedbackReview />} />
       <Route path="/loyalty" element={<LoyaltyReward />} />
