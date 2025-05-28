@@ -24,45 +24,21 @@ ChartJS.register(
 );
 
 const Dashboard = () => {
-  // Data summary cards
   const stats = [
-    {
-      label: "Pendapatan Hari Ini",
-      value: "$53,000",
-      percent: "+55%",
-      color: "green",
-    },
-    {
-      label: "Pengguna Hari Ini",
-      value: "2,300",
-      percent: "+3%",
-      color: "blue",
-    },
+    { label: "Pendapatan Hari Ini", value: "$53,000", percent: "+55%", color: "purple" },  // ubah dari yellow ke purple
+    { label: "Pengguna Hari Ini", value: "2,300", percent: "+3%", color: "blue" },
     { label: "Klien Baru", value: "+3,462", percent: "-2%", color: "red" },
     { label: "Penjualan", value: "$103,430", percent: "+5%", color: "purple" },
   ];
 
-  // Data untuk grafik Penjualan Bulanan (Bar Chart)
   const barData = {
-    labels: [
-      "Jan",
-      "Feb",
-      "Mar",
-      "Apr",
-      "Mei",
-      "Jun",
-      "Jul",
-      "Agu",
-      "Sep",
-      "Okt",
-      "Nov",
-      "Des",
-    ],
+    labels: ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agu", "Sep", "Okt", "Nov", "Des"],
     datasets: [
       {
         label: "Penjualan (dalam ribuan $)",
         data: [12, 19, 14, 17, 22, 30, 28, 26, 32, 35, 40, 45],
-        backgroundColor: "rgba(99, 102, 241, 0.7)", // purple-600
+        backgroundColor: "rgba(139, 92, 246, 0.7)", // ungu Tailwind (purple-500)
+        borderRadius: 6,
       },
     ],
   };
@@ -71,35 +47,29 @@ const Dashboard = () => {
     responsive: true,
     plugins: {
       legend: { position: "top" },
-      title: { display: true, text: "Penjualan Bulanan Tahun Ini" },
+      title: {
+        display: true,
+        text: "Penjualan Bulanan Tahun Ini",
+        color: "#7c3aed",  // ungu (purple-600)
+        font: { weight: "bold", size: 18 },
+      },
+    },
+    scales: {
+      y: { beginAtZero: true },
     },
   };
 
-  // Data untuk grafik Pertumbuhan Pelanggan (Line Chart)
   const lineData = {
-    labels: [
-      "Jan",
-      "Feb",
-      "Mar",
-      "Apr",
-      "Mei",
-      "Jun",
-      "Jul",
-      "Agu",
-      "Sep",
-      "Okt",
-      "Nov",
-      "Des",
-    ],
+    labels: ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agu", "Sep", "Okt", "Nov", "Des"],
     datasets: [
       {
         label: "Jumlah Pelanggan",
         data: [50, 75, 120, 180, 220, 260, 300, 350, 400, 430, 460, 500],
-        borderColor: "rgba(59, 130, 246, 1)", // blue-500
-        backgroundColor: "rgba(59, 130, 246, 0.3)",
+        borderColor: "rgba(34, 197, 94, 1)",
+        backgroundColor: "rgba(34, 197, 94, 0.2)",
         fill: true,
-        tension: 0.3,
-        pointRadius: 4,
+        tension: 0.4,
+        pointRadius: 5,
       },
     ],
   };
@@ -108,37 +78,53 @@ const Dashboard = () => {
     responsive: true,
     plugins: {
       legend: { position: "top" },
-      title: { display: true, text: "Pertumbuhan Pelanggan Tahun Ini" },
+      title: {
+        display: true,
+        text: "Pertumbuhan Pelanggan Tahun Ini",
+        color: "#15803d",
+        font: { weight: "bold", size: 18 },
+      },
+    },
+    scales: {
+      y: { beginAtZero: true },
     },
   };
 
   return (
-    <div className="p-6 space-y-8">
-      {/* Statistik utama */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {stats.map(({ label, value, percent, color }) => (
-          <div key={label} className="bg-white rounded-xl shadow p-5">
-            <p className="text-sm text-gray-500">{label}</p>
-            <h2
-              className={`text-2xl font-bold text-${color}-600 flex items-center gap-2`}
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-white py-10 px-6 md:px-16">
+      <div className="max-w-7xl mx-auto space-y-16">
+        <header className="text-center">
+          <h1 className="text-4xl font-extrabold text-purple-600 mb-2 select-none">🍞 Holland Bakery Dashboard</h1>
+          <p className="text-gray-600 text-lg">Statistik performa bisnis yang interaktif dan informatif</p>
+        </header>
+
+        {/* Stats Cards */}
+        <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          {stats.map(({ label, value, percent, color }) => (
+            <div
+              key={label}
+              className="bg-white border border-gray-100 rounded-3xl shadow-md p-6 hover:shadow-lg transition-shadow duration-300 flex flex-col justify-between"
             >
-              {value}
-              <span className={`text-xs font-semibold text-${color}-500`}>
-                {percent}
-              </span>
-            </h2>
+              <p className="text-sm text-gray-500 mb-3 font-medium">{label}</p>
+              <div className="flex items-center justify-between">
+                <span className={`text-3xl font-extrabold text-${color}-600`}>{value}</span>
+                <span className={`text-sm font-semibold text-${color}-500 bg-${color}-100 px-3 py-1 rounded-full select-none`}>
+                  {percent}
+                </span>
+              </div>
+            </div>
+          ))}
+        </section>
+
+        {/* Charts */}
+        <section className="grid grid-cols-1 md:grid-cols-2 gap-10">
+          <div className="bg-white rounded-3xl shadow-md p-6 hover:shadow-lg transition-shadow duration-300">
+            <Bar options={barOptions} data={barData} />
           </div>
-        ))}
-      </div>
-
-      {/* Grafik Penjualan Bulanan */}
-      <div className="bg-white rounded-xl shadow p-6">
-        <Bar options={barOptions} data={barData} />
-      </div>
-
-      {/* Grafik Pertumbuhan Pelanggan */}
-      <div className="bg-white rounded-xl shadow p-6">
-        <Line options={lineOptions} data={lineData} />
+          <div className="bg-white rounded-3xl shadow-md p-6 hover:shadow-lg transition-shadow duration-300">
+            <Line options={lineOptions} data={lineData} />
+          </div>
+        </section>
       </div>
     </div>
   );

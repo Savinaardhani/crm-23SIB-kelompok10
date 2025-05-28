@@ -1,11 +1,12 @@
+import { FcFeedback } from "react-icons/fc"; 
+import { BsFillStarFill } from "react-icons/bs"; 
 import {
   LayoutDashboard,
   Users, // untuk pelanggan
   ShoppingCart, // untuk penjualan
   Box, // untuk produk
   BarChart2, // untuk laporan
-  Settings, // untuk pengaturan akun
-  User,
+  Settings, // untuk pengaturan akun      // bisa dipakai untuk Review & Feedback
   LogIn,
   UserPlus,
 } from "lucide-react";
@@ -17,6 +18,8 @@ const menuItems = [
   { name: "Pelanggan", icon: <Users />, path: "/pelanggan" },
   { name: "Penjualan", icon: <ShoppingCart />, path: "/penjualan" },
   { name: "Laporan", icon: <BarChart2 />, path: "/laporan" },
+  { name: "Review & Feedback", icon: <FcFeedback />, path: "/review" },
+  { name: "Loyalty Reward", icon: <BsFillStarFill />, path: "/loyalty" },  // icon diperbaiki di sini
 ];
 
 const accountItems = [
@@ -32,9 +35,7 @@ const Sidebar = () => {
 
   return (
     <aside className="bg-white w-64 h-screen shadow-lg px-4 py-6 hidden md:block">
-      <div className="text-xl font-bold mb-8 text-purple-700">
-        Holland Bakery
-      </div>
+      <div className="text-xl font-bold mb-8 text-purple-700">Holland Bakery</div>
       <nav className="space-y-1">
         {menuItems.map((item) => (
           <Link
