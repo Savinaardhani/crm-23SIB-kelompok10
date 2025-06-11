@@ -1,4 +1,3 @@
-import { FcFeedback } from "react-icons/fc"; 
 import { BsFillStarFill } from "react-icons/bs"; 
 import {
   LayoutDashboard,
@@ -18,8 +17,7 @@ const menuItems = [
   { name: "Pelanggan", icon: <Users />, path: "/pelanggan" },
   { name: "Penjualan", icon: <ShoppingCart />, path: "/penjualan" },
   { name: "Order", icon: <ShoppingCart />, path: "/Order" },
-  { name: "Laporan", icon: <BarChart2 />, path: "/laporan" },
-  { name: "Review & Feedback", icon: <FcFeedback />, path: "/review" },
+  { name: "Review & Feedback", icon: <ShoppingCart />, path: "/review" },
   { name: "Loyalty Reward", icon: <BsFillStarFill />, path: "/loyalty" },  // icon diperbaiki di sini
   { name: "Bahan Baku", icon: <Box />, path: "/bahan-baku" },,
 ];
