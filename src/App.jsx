@@ -9,8 +9,6 @@ import Faq from "./pages/Faq";
 import Contact from "./pages/Contact";
 import TermsAndConditions from "./pages/TermsAndConditions";
 import LoginPage from "./pages/LoginPage";
-import CustomerLogin from "./pages/CustomerLogin";
-import CustomerRegister from "./pages/CustomerRegister";
 
 function App() {
   return (
@@ -25,8 +23,6 @@ function App() {
           <Route path="/contact" element={<Contact />} />
           <Route path="/terms" element={<TermsAndConditions />} />
           <Route path="/login" element={<LoginPage />} />
-          <Route path="/customerlogin" element={<CustomerLogin />} />
-          <Route path="/customerregister" element={<CustomerRegister />} />
         </Route>
       </Routes>
     </CartProvider>
