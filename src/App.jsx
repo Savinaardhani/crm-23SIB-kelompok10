@@ -9,6 +9,7 @@ import Faq from "./pages/Faq";
 import Contact from "./pages/Contact";
 import TermsAndConditions from "./pages/TermsAndConditions";
 import LoginPage from "./pages/LoginPage";
+import Pelanggan from "./pages/Pelanggan";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
           <Route path="/contact" element={<Contact />} />
           <Route path="/terms" element={<TermsAndConditions />} />
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/pelanggan" element={<Pelanggan />} />
         </Route>
       </Routes>
     </CartProvider>
