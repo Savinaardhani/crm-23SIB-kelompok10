@@ -25,6 +25,7 @@ const Header = () => {
           <Link to="/Produk" className="hover:underline">Menu</Link>
           <Link to="/faq" className="hover:underline">FAQ</Link>
           <Link to="/contact" className="hover:underline">Contact</Link>
+          <Link to="/pelanggan" className="hover:underline">Pelanggan</Link>
         </nav>
       </div>
 
