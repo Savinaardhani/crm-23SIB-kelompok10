@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
-import { supabase } from '../supabase';
-import PelangganForm from "../components/FormPelanggan"; // ✅ betul
-
+import { supabase } from '../../supabase';
+import PelangganForm from "../../components/FormPelanggan"; // tetap pakai ini
+import SidebarAdmin from "../../components/admin/SidebarAdmin";
+import HeaderAdmin from "../../components/admin/HeaderAdmin";
 
 function Pelanggan() {
   const [pelanggans, setPelanggans] = useState([]);
@@ -44,8 +45,8 @@ function Pelanggan() {
     fetchPelanggans();
   }, []);
 
-  return (
-    <div className="max-w-xl mx-auto p-4">
+return (
+    <div className="max-w-3xl mx-auto p-6 bg-white rounded-xl shadow">
       <h1 className="text-2xl font-bold mb-4">CRUD Pelanggan dengan Supabase</h1>
       <PelangganForm
         addUser={addPelanggan}
