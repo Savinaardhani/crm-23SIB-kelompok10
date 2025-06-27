@@ -1,0 +1,90 @@
+import { useEffect, useState } from 'react';
+import { supabase } from '../../supabase';
+import PelangganForm from "../../components/FormPelanggan"; // tetap pakai ini
+import SidebarAdmin from "../../components/admin/SidebarAdmin";
+import HeaderAdmin from "../../components/admin/HeaderAdmin";
+
+function Pelanggan() {
+  const [pelanggans, setPelanggans] = useState([]);
+  const [editingPelanggan, setEditingPelanggan] = useState(null);
+
+  const fetchPelanggans = async () => {
+    const { data, error } = await supabase
+      .from('pelanggan')
+      .select('*')
+      .order('created_at', { ascending: false });
+    if (error) console.error(error);
+    else setPelanggans(data);
+  };
+
+  const addPelanggan = async (pelanggan) => {
+    const { error } = await supabase.from('pelanggan').insert(pelanggan);
+    if (error) console.error(error);
+    else fetchPelanggans();
+  };
+
+  const updatePelanggan = async (pelanggan) => {
+    const { error } = await supabase
+      .from('pelanggan')
+      .update(pelanggan)
+      .eq('id', pelanggan.id);
+    if (error) console.error(error);
+    else {
+      fetchPelanggans();
+      setEditingPelanggan(null);
+    }
+  };
+
+  const deletePelanggan = async (id) => {
+    const { error } = await supabase.from('pelanggan').delete().eq('id', id);
+    if (error) console.error(error);
+    else fetchPelanggans();
+  };
+
+  useEffect(() => {
+    fetchPelanggans();
+  }, []);
+
+return (
+    <div className="max-w-3xl mx-auto p-6 bg-white rounded-xl shadow">
+      <h1 className="text-2xl font-bold mb-4">CRUD Pelanggan dengan Supabase</h1>
+      <PelangganForm
+        addUser={addPelanggan}
+        updateUser={updatePelanggan}
+        editingUser={editingPelanggan}
+      />
+      <ul className="mt-4">
+        {pelanggans.map(pelanggan => (
+          <li key={pelanggan.id} className="border p-2 my-2 flex justify-between">
+            <div>
+              <p className="font-semibold">{pelanggan.nama_pelanggan}</p>
+              <p className="text-sm text-gray-600">
+                {pelanggan.email_pelanggan} - {pelanggan.notelp_pelanggan}
+              </p>
+              <p className="text-sm text-gray-600">{pelanggan.alamat_pelanggan}</p>
+              <p className="text-sm text-gray-600">
+                Tanggal Lahir: {pelanggan.tanggal_lahir}
+              </p>
+            </div>
+            <div className="space-x-2">
+              <button
+                onClick={() => setEditingPelanggan(pelanggan)}
+                className="text-blue-600 hover:underline"
+              >
+                Edit
+              </button>
+              <button
+                onClick={() => deletePelanggan(pelanggan.id)}
+                className="text-red-600 hover:underline"
+              >
+                Hapus
+              </button>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+export default Pelanggan;

@@ -1,6 +1,17 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 const LoginPage = () => {
+  const navigate = useNavigate();
+
+  const handleLogin = (e) => {
+    e.preventDefault();
+    // Tambahkan validasi login di sini kalau ada
+
+    // Simulasi login berhasil → redirect ke halaman admin
+    navigate("/admin");
+  };
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-[#FFF5E1] to-[#FFEFD1]">
       <div className="bg-white shadow-xl rounded-2xl p-8 w-full max-w-md">
@@ -8,7 +19,7 @@ const LoginPage = () => {
           Admin Login
         </h2>
 
-        <form className="space-y-5">
+        <form className="space-y-5" onSubmit={handleLogin}>
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Email
