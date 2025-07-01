@@ -1,53 +1,64 @@
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { CartContext } from "../context/CartContext";
+import { CartContext } from "../../context/CartContext";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { CreditCard, Wallet2, Banknote, Truck } from "lucide-react";
 
 const CartPage = () => {
-  const { cart, removeFromCart } = useContext(CartContext);
+  const { cart, removeFromCart, clearCart } = useContext(CartContext);
   const navigate = useNavigate();
   const [selectedPayment, setSelectedPayment] = useState(null);
+  const [deskripsi, setDeskripsi] = useState("");
 
-  const total = cart.reduce((sum, item) => sum + item.price, 0);
+  const total = cart.reduce((sum, item) => sum + item.harga, 0);
 
   const handleCheckout = () => {
-    if (cart.length === 0) {
-      toast.warn("Keranjang masih kosong!", {
-        position: "top-right",
-      });
-      return;
-    }
-
-    if (!selectedPayment) {
-      toast.warn("Silakan pilih metode pembayaran terlebih dahulu.", {
-        position: "top-right",
-      });
+    if (cart.length === 0 || !selectedPayment) {
+      toast.warn("Keranjang atau metode pembayaran belum dipilih.");
       return;
     }
 
     const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+    if (!isLoggedIn) {
+      toast.info("Silakan daftar terlebih dahulu.");
+      setTimeout(() => navigate("/customerregister"), 1000);
+      return;
+    }
 
-if (!isLoggedIn) {
-  toast.info("Silakan daftar terlebih dahulu sebelum melanjutkan pembayaran.", {
-    position: "top-right",
-  });
+    // ✅ Pakai currentUser, bukan currentCustomer
+    const currentUser = JSON.parse(localStorage.getItem("currentUser")) || {};
+    const orders = JSON.parse(localStorage.getItem("orderList")) || [];
 
-  setTimeout(() => {
-    navigate("/customerregister");
-  }, 1000);
+    const newOrder = {
+      id: Date.now(),
+      nama: currentUser.nama || "Pengguna",
+      produk: cart.map((item) => item.nama).join(", "),
+      total: total,
+      metode: selectedPayment,
+      status: "Menunggu",
+      deskripsi: deskripsi,
+      date: new Date().toISOString(),
+    };
 
-  return;
-}
+    // Simpan ke localStorage
+    localStorage.setItem("orderList", JSON.stringify([newOrder, ...orders]));
 
-    toast.success(`Pembayaran via ${selectedPayment} diproses 🎉`, {
-      position: "top-right",
-    });
+    // Kosongkan keranjang
+    clearCart();
 
-    setTimeout(() => {
-      navigate("/pembayaran");
-    }, 1000);
+    // Notifikasi sukses
+    toast.success("Checkout berhasil!");
+
+    // ✅ Redirect berdasarkan role
+    const role = currentUser.role;
+    console.log("Redirecting role:", role);
+
+    if (role === "admin") {
+      navigate("/order");
+    } else {
+      navigate("/"); // pelanggan ke Dashboard
+    }
   };
 
   const paymentOptions = [
@@ -60,7 +71,6 @@ if (!isLoggedIn) {
   return (
     <section className="px-6 py-10 min-h-screen bg-[#fffaf5]">
       <ToastContainer />
-
       <h2 className="text-3xl font-bold mb-8 text-[#8B4513] text-center font-serif">
         🛒 Your Shopping Cart
       </h2>
@@ -69,21 +79,20 @@ if (!isLoggedIn) {
         <p className="text-gray-500 italic text-center">Keranjang masih kosong.</p>
       ) : (
         <div className="max-w-4xl mx-auto space-y-8">
-          {/* List Produk */}
+          {/* Daftar Produk */}
           <div className="grid gap-6 sm:grid-cols-1 md:grid-cols-2">
             {cart.map((item, index) => (
-              <div
-                key={index}
-                className="flex bg-white rounded-lg shadow-md hover:shadow-lg transition p-4 gap-4 items-center"
-              >
+              <div key={index} className="flex bg-white rounded-lg shadow p-4 gap-4 items-center">
                 <img
-                  src={item.image}
-                  alt={item.name}
-                  className="w-20 h-20 object-cover rounded-md border"
+                  src={item.gambar}
+                  alt={item.nama}
+                  className="w-20 h-20 object-cover rounded-md"
                 />
                 <div className="flex-1">
-                  <h3 className="text-lg font-semibold text-[#8B4513]">{item.name}</h3>
-                  <p className="text-sm text-gray-600 mb-1">Rp {item.price.toLocaleString()}</p>
+                  <h3 className="text-lg font-semibold text-[#8B4513]">{item.nama}</h3>
+                  <p className="text-sm text-gray-600 mb-1">
+                    Rp {item.harga.toLocaleString("id-ID")}
+                  </p>
                   <button
                     onClick={() => removeFromCart(index)}
                     className="text-sm text-red-500 hover:underline"
@@ -95,11 +104,9 @@ if (!isLoggedIn) {
             ))}
           </div>
 
-          {/* Metode Pembayaran */}
+          {/* Pilih Metode Pembayaran */}
           <div>
-            <h3 className="text-lg font-semibold mb-4 text-[#8B4513]">
-              Pilih Metode Pembayaran:
-            </h3>
+            <h3 className="text-lg font-semibold mb-4 text-[#8B4513]">Pilih Metode Pembayaran:</h3>
             <div className="grid gap-3 sm:grid-cols-2 md:grid-cols-2">
               {paymentOptions.map((option) => (
                 <button
@@ -118,10 +125,21 @@ if (!isLoggedIn) {
             </div>
           </div>
 
+          {/* Input Deskripsi */}
+          <div>
+            <label className="block mt-4 text-sm font-medium text-[#8B4513]">Catatan:</label>
+            <textarea
+              value={deskripsi}
+              onChange={(e) => setDeskripsi(e.target.value)}
+              placeholder="Tulis catatan untuk pesanan..."
+              className="w-full mt-2 p-3 border rounded text-sm"
+            ></textarea>
+          </div>
+
           {/* Total & Checkout */}
           <div className="border-t pt-6 text-right">
             <div className="text-xl font-bold text-[#8B4513] mb-4">
-              Total: Rp {total.toLocaleString()}
+              Total: Rp {total.toLocaleString("id-ID")}
             </div>
             <button
               onClick={handleCheckout}

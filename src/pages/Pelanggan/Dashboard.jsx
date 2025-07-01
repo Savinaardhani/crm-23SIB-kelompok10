@@ -7,8 +7,7 @@ import {
 import { FaWhatsapp } from "react-icons/fa";
 const Dashboard = () => {
   return (
-    <section className="px-10 py-16 min-h-screen flex items-center justify-center">
-      <div className="w-full max-w-6xl bg-white rounded-2xl shadow-xl p-8 md:p-12 flex flex-col-reverse md:flex-row items-center gap-10">
+    <section className="bg-white px-10 py-16 rounded-lg flex flex-col md:flex-row items-center justify-between gap-10 shadow-md">
         
         {/* Left Content */}
         <div className="w-full md:w-1/2 space-y-6">
@@ -40,14 +39,13 @@ const Dashboard = () => {
         </div>
 
         {/* Right Image */}
-        <div className="w-full md:w-1/2 flex justify-center">
+        <div className="w-full md:w-1/3 flex justify-center">
           <img
             src="/img/roti.jpg"
             alt="Produk Holland Bakery"
             className="w-full max-w-sm rounded-xl shadow-lg object-cover"
           />
         </div>
-      </div>
     </section>
   );
 };

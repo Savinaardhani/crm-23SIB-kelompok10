@@ -1,3 +1,4 @@
+// src/pages/Contact.jsx
 import { useState } from "react";
 import { Mail, Phone, MapPin, CheckCircle } from "lucide-react";
 
@@ -17,11 +18,17 @@ const Contact = () => {
     e.preventDefault();
 
     if (formData.name && formData.email && formData.message) {
-      console.log("Form submitted:", formData);
+      const existing = JSON.parse(localStorage.getItem("kritikSaranList")) || [];
+      const newEntry = {
+        id: Date.now(),
+        ...formData,
+      };
+
+      localStorage.setItem("kritikSaranList", JSON.stringify([...existing, newEntry]));
+
       setSubmitted(true);
       setFormData({ name: "", email: "", message: "" });
 
-      // Reset notifikasi setelah 6 detik
       setTimeout(() => setSubmitted(false), 6000);
     } else {
       alert("Semua kolom wajib diisi.");
@@ -40,7 +47,6 @@ const Contact = () => {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-start">
-        {/* Kontak & Maps */}
         <div className="space-y-6">
           <div className="flex items-start gap-4">
             <MapPin className="w-6 h-6 text-[#8B4513]" />
@@ -64,7 +70,6 @@ const Contact = () => {
             </div>
           </div>
 
-          {/* Google Maps */}
           <div className="rounded overflow-hidden shadow-lg">
             <iframe
               title="Google Maps"
@@ -76,11 +81,7 @@ const Contact = () => {
           </div>
         </div>
 
-        {/* Form */}
-        <form
-          onSubmit={handleSubmit}
-          className="bg-white p-8 rounded-xl shadow space-y-6"
-        >
+        <form onSubmit={handleSubmit} className="bg-white p-8 rounded-xl shadow space-y-6">
           {submitted && (
             <div className="flex items-center gap-2 bg-green-50 border border-green-300 text-green-700 p-3 rounded-md text-sm transition-all">
               <CheckCircle className="w-5 h-5" />
@@ -89,9 +90,7 @@ const Contact = () => {
           )}
 
           <div>
-            <label className="block text-sm font-medium text-[#8B4513] mb-1">
-              Nama
-            </label>
+            <label className="block text-sm font-medium text-[#8B4513] mb-1">Nama</label>
             <input
               type="text"
               name="name"
@@ -104,9 +103,7 @@ const Contact = () => {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-[#8B4513] mb-1">
-              Email
-            </label>
+            <label className="block text-sm font-medium text-[#8B4513] mb-1">Email</label>
             <input
               type="email"
               name="email"
@@ -119,9 +116,7 @@ const Contact = () => {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-[#8B4513] mb-1">
-              Pesan
-            </label>
+            <label className="block text-sm font-medium text-[#8B4513] mb-1">Pesan</label>
             <textarea
               name="message"
               value={formData.message}
@@ -133,10 +128,7 @@ const Contact = () => {
             />
           </div>
 
-          <button
-            type="submit"
-            className="bg-[#8B4513] text-white px-6 py-2 rounded hover:bg-[#A0522D] transition"
-          >
+          <button type="submit" className="bg-[#8B4513] text-white px-6 py-2 rounded hover:bg-[#A0522D] transition">
             Kirim Pesan
           </button>
         </form>

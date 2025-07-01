@@ -1,20 +1,20 @@
 import { Routes, Route } from "react-router-dom";
-import MainLayout from "./components/MainLayout";
-import Dashboard from "./pages/Dashboard";
-import Produk from "./pages/Produk";
-import About from "./pages/About";
-import Cart from "./pages/Cart";
-import { CartProvider } from "./context/CartContext";
-import Faq from "./pages/Faq";
-import Contact from "./pages/Contact";
-import TermsAndConditions from "./pages/TermsAndConditions";
-import LoginPage from "./pages/LoginPage";
+import MainLayout from "../../components/MainLayout";
+import Dashboard from "./Dashboard";
+import Produk from "./Produk";
+import About from "./About";
+import Cart from "./Cart";
+import { CartProvider } from "../../context/CartContext";
+import Faq from "./Faq";
+import Contact from "./Contact";
+import TermsAndConditions from "./TermsAndConditions";
+import LoginPage from "./LoginPage";
 
 function App() {
   return (
     <CartProvider>
       <Routes>
-        <Route element={<MainLayout />}>
+        <Route element={<MainLayout key={window.location.pathname} />}>
           <Route path="/" element={<Dashboard />} />
           <Route path="/about" element={<About />} />
           <Route path="/produk" element={<Produk />} />
@@ -25,6 +25,7 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
         </Route>
       </Routes>
+
     </CartProvider>
   );
 }
